@@ -1,0 +1,4 @@
+name = Exam question generator
+description = Randomly choose questions and assemble PDF for CODE courses
+version = VERSION
+core = 7.x
