@@ -1,4 +1,10 @@
 <?php
+
+/*
+ * file to select exam for generating pdf copy
+ * by Adam Young November 2014
+*/
+
 function generate_exam_menu() {
   $items = array();
   $items['generate-exam'] = array(
