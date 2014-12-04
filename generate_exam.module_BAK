@@ -1,0 +1,68 @@
+<?php
+function generate_exam_menu() {
+  $items = array();
+  $items['generate-exam'] = array(
+    'title' => t('Generate an exam'),
+    'page callback' => 'generate_exam_form',
+    'access arguments' => array('access content'),
+    'description' => t('Generate exam from questions'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+function generate_exam_form() {
+  return drupal_get_form('generate_exam_my_form');
+}
+function generate_exam_my_form($form_state) {
+  $form['wrapper'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Course'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['wrapper']['course'] = array(
+       '#type' => 'select',
+       '#title' => t('Choose course'),
+       '#options' => _get_courses(),
+       '#description' => t('Choose the course to view the exams available'),
+   );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  return $form;
+}
+function generate_exam_my_form_validate($form, &$form_state) {
+    $year_of_birth = $form_state['values']['year_of_birth'];
+    if ($year_of_birth && ($year_of_birth < 1900 || $year_of_birth > 2000)) {
+        form_set_error('year_of_birth', 'Enter a year between 1900 and 2000.');
+    }
+}
+// Adds a submit handler/function to our form to send a successful
+// completion message to the screen.
+function generate_exam_my_form_submit($form, &$form_state) {
+    drupal_set_message(t('The form has been submitted.'));
+}
+
+/* ************************ supplemental functions */
+function _get_courses() {
+    $query = new EntityFieldQuery();
+    $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'exam_course')
+        ->propertyCondition('status', 1)
+        ->propertyOrderBy('title', 'ASC');
+    // ->fieldCondition('field_us_state', 'value', array('CT', 'NJ', 'NY'))
+    // ->range(0,10);
+    $result = $query->execute();
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    $select = array();
+
+    foreach ($nids as $n) {
+        $select[$n] = $nodes[$n]->title;
+    }
+
+    return $select;
+}
+

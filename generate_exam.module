@@ -11,48 +11,82 @@ function generate_exam_menu() {
   return $items;
 }
 function generate_exam_form() {
-  return drupal_get_form('generate_exam_my_form');
+  return drupal_get_form('generate_exam_dropdowns_form');
 }
-function generate_exam_my_form($form_state) {
-  $form['name'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Name'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+
+function generate_exam_dropdowns_form($form, &$form_state) {
+  $options_first = _get_courses();
+  $selected = isset($form_state['values']['dropdown_first']) ? $form_state['values']['dropdown_first'] : key($options_first);
+
+  $form['dropdown_first'] = array(
+    '#type' => 'select',
+    '#title' => 'Course',
+    '#options' => $options_first,
+    '#default_value' => $selected,
+    '#ajax' => array(
+      'event' => 'change',
+      'callback' => 'generate_exam_dropdowns_form_callback',
+      'wrapper' => 'dropdown-second-replace',
+    ),
   );
-  $form['name']['first'] = array(
-    '#type' => 'textfield',
-    '#title' => t('First name'),
-    '#required' => TRUE,
-    '#default_value' => "First name",
-    '#description' => "Please enter your first name.",
-    '#size' => 20,
-    '#maxlength' => 20,
-  );
-  $form['name']['last'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Last name'),
-    '#required' => TRUE,
-  );
-  $form['year_of_birth'] = array(
-    '#type' => 'textfield',
-    '#title' => "Year of birth",
-    '#description' => 'Format is "YYYY"',
+
+  $form['dropdown_second'] = array(
+    '#type' => 'select',
+    '#title' => $options_first[$selected] . ' ' . t('Exams'),
+    '#prefix' => '<div id="dropdown-second-replace">',
+    '#suffix' => '</div>',
+    '#options' => _get_exams($selected),
+    '#default_value' => isset($form_state['values']['dropdown_second']) ? $form_state['values']['dropdown_second'] : '',
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Submit',
+    '#value' => t('Submit'),
   );
   return $form;
 }
-function generate_exam_my_form_validate($form, &$form_state) {
-    $year_of_birth = $form_state['values']['year_of_birth'];
-    if ($year_of_birth && ($year_of_birth < 1900 || $year_of_birth > 2000)) {
-        form_set_error('year_of_birth', 'Enter a year between 1900 and 2000.');
-    }
+
+function generate_exam_dropdowns_form_callback($form, &$form_sate){
+ return $form['dropdown_second'];
 }
-// Adds a submit handler/function to our form to send a successful
-// completion message to the screen.
-function generate_exam_my_form_submit($form, &$form_state) {
-    drupal_set_message(t('The form has been submitted.'));
+
+/* ************************ supplemental functions */
+function _get_courses() {
+    $query = new EntityFieldQuery();
+    $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'exam_course')
+        ->propertyCondition('status', 1)
+        ->propertyOrderBy('title', 'ASC');
+    // ->fieldCondition('field_us_state', 'value', array('CT', 'NJ', 'NY'))
+    // ->range(0,10);
+    $result = $query->execute();
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    $select = array();
+
+    foreach ($nids as $n) {
+        $select[$n] = $nodes[$n]->title;
+    }
+
+    return $select;
+}
+
+function _get_exams($course) {
+    $query = new EntityFieldQuery();
+    $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'exam_exam')
+        ->propertyCondition('status', 1)
+        ->propertyOrderBy('title', 'ASC')
+    	->fieldCondition('field_exam_course', 'target_id', $course, '=');
+    $result = $query->execute();
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    $select = array();
+
+    foreach ($nids as $n) {
+        $select[$n] = $nodes[$n]->title;
+    }
+
+    return $select;
 }
