@@ -96,3 +96,30 @@ function _get_exams($course) {
 
     return $select;
 }
+
+function _get_sections($exam) {
+    $query = new EntityFieldQuery();
+    $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'exam_section')
+        ->propertyCondition('status', 1)
+        ->propertyOrderBy('title', 'ASC')
+    	->fieldCondition('field_exam_exam', 'target_id', $exam, '=');
+    $result = $query->execute();
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+    $select = array();
+
+    foreach ($nids as $n) {
+        $select[$n] = $nodes[$n]->title;
+    }
+
+    return $select;
+}
+
+function _get_instance($exam) {
+    // note $exam is exam nid
+    // TODO get array of question nodes
+	
+    
+}
