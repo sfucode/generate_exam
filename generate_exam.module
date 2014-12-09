@@ -115,7 +115,7 @@ function _get_instance($exam) {
     // then, use that number to randomly get questions
     // from each section and cat them together
 
-    $master = array(); // will be an array of nids for final compilation of pdf
+    $index = array(); // will be an array of nids for final compilation of pdf
     $num_questions = array(); // will be an array of nids for final compilation of pdf
     foreach ($nodes as $node) {
 
@@ -123,8 +123,9 @@ function _get_instance($exam) {
         $items = field_get_items('node', $node, 'field_no_of_questions');
 
         foreach ($items as $item) { // for each question number field
-            // do all section processing here $node = section nid
             $num_questions = field_view_value('node', $node, 'field_no_of_questions', $item);
+            $index[$node] = $num_questions;
+            /*
             $queryQuestion = new EntityFieldQuery();
             $queryQuestion
                 ->entityCondition('entity_type', 'node')
@@ -135,12 +136,11 @@ function _get_instance($exam) {
                 ->range(0,'2');
                 $result = $queryQuestion->execute();
                 $question_nids[] = array_keys($result['node']);
+             */
         }
     }
 
-    return $question_nids;
-    // return $num_questions['#markup'];
-    // return $items;
+    return $index;
 
 }
 
