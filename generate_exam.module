@@ -62,10 +62,16 @@ function generate_exam_dropdowns_form_callback($form, &$form_sate){
     return $form['dropdown_second'];
 }
 
-function generate_exam_dropdowns_form_submit($form, &$form_sate){
-    $form_state['redirect'] = 'node/2';
-    drupal_set_message('Hello');
+function generate_exam_dropdowns_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'generate_exam_dropdowns_form') {
+        $form['#submit'][] = 'exam_submit_handler';
+    }
 }
+
+function exam_submit_handler(&$form, &$form_state) {
+    $form_state['redirect'] = 'node/2';
+}
+
 /* ************************ supplemental functions */
 function _get_courses() {
     $query = new EntityFieldQuery();
