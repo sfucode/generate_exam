@@ -123,7 +123,7 @@ function _get_instance($exam) {
             ->addTag('random')
             ->range(0,$num_questions);
         $result = $queryQuestion->execute();
-        $question_nids[] = array_keys($result['node']);
+        $question_nids = array_keys($result['node']);
     }
 
     return $question_nids;
