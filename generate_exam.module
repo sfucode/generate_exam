@@ -124,7 +124,7 @@ function _get_instance($exam) {
         // randomly choose from pool
         // $num_questions = $nodes[$n]->field_no_of_questions;
         // $num_questions = $nodes[$n]->title;
-        $num_questions .= $sections->title;
+        $num_questions .= $sections->field_no_of_questions;
     }
     return $num_questions;
 
