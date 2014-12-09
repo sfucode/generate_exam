@@ -110,8 +110,8 @@ function _get_instance($exam) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
 
-    foreach ($nodes as $node) {
-        $items[$node] = field_get_items('node', $node, 'field_no_of_questions');
+    foreach ($nodes as &$node) {
+        $items[$node->nid] = field_get_items('node', $node, 'field_no_of_questions');
 
         /*
         foreach ($items as $item) { // for each question number field
