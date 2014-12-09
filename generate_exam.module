@@ -14,6 +14,13 @@ function generate_exam_menu() {
         'description' => t('Generate exam from questions'),
         'type' => MENU_CALLBACK,
     );
+    $items['build-exam/%'] = array( // argument is hash
+        'page callback' => '_compile_exam',
+        'page arguments' => array(1),
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+    );
+
     return $items;
 }
 function generate_exam_form() {
