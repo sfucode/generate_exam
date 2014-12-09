@@ -114,9 +114,19 @@ function _get_instance($exam) {
         // $items[$node->nid] = field_get_items('node', $node, 'field_no_of_questions');
         $num = field_get_items('node', $node, 'field_no_of_questions');
         $num_questions = $num[0]['value'];
+        $queryQuestion = new EntityFieldQuery();
+        $queryQuestion
+            ->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'exam_question')
+            ->propertyCondition('status', 1)
+            ->fieldCondition('field_section', 'target_id', $node->nid, '=')
+            ->addTag('random')
+            ->range(0,$num_questions);
+        $result = $queryQuestion->execute();
+        $question_nids[] = array_keys($result['node']);
     }
 
-    return $num_questions;
+    return $question_nids;
 
 }
 
