@@ -122,7 +122,7 @@ function _get_instance($exam) {
         $items = field_get_items('node', $node, 'field_no_of_questions');
 
         // Truncate to the necessary number (your logic will probably change here)
-        foreach (array_slice($items, 0, 5) as $item) {
+        foreach ($items as $item) {
             // Add to the output array.
             $output[] = field_view_value('node', $node, 'field_no_of_questions', $item);
         }
