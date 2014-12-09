@@ -140,7 +140,12 @@ function generate_exam_query_random_alter($query){
 function _compile_exam($exam) {
     $questions = flatten(_get_questions($exam));
 
-    return $questions;
+    foreach ($questions as $q) {
+        $thisQuestion = node_load($q);
+        $master .= $thisQuestion->field_exam_question['und'][0]['safe_value'];
+    }
+
+    return $master;
 }
 
 function flatten(array $array) {
