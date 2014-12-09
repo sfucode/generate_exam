@@ -161,7 +161,9 @@ function _compile_exam($exam) {
 
     foreach ($questions as $q) {
         $thisQuestion = node_load($q);
-        $master .= $thisQuestion->field_exam_question['und'][0]['safe_value'];
+        if ($thisQuestion->field_exam_question['und'][0]['safe_value']) {
+            $master .= $thisQuestion->field_exam_question['und'][0]['safe_value'];
+        }
     }
 
     return $master;
