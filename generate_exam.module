@@ -124,14 +124,15 @@ function _get_instance($exam) {
         foreach ($items as $item) { // for each question number field
             // do all section processing here $node = section nid
             $num_questions = field_view_value('node', $node, 'field_no_of_questions', $item);
-            $result = $query
+            $queryQuestion = new EntityFieldQuery();
+            $queryQuestion
                 ->entityCondition('entity_type', 'node')
                 ->entityCondition('bundle', 'exam_question')
                 ->propertyCondition('status', 1)
-                ->fieldCondition('field_section', 'value', $node, '=')
+                ->fieldCondition('field_section', 'target_id', $node, '=')
                 ->addTag('random')
-                ->range(0,$num_questions)
-                ->execute();
+                ->range(0,$num_questions);
+                $result = $queryQuestion>execute();
                 $question_nids[] = array_keys($result['node']);
         }
     }
@@ -141,5 +142,5 @@ function _get_instance($exam) {
 }
 
 function generate_exam_query_random_alter($query){
-  $query->orderRandom();
+    $query->orderRandom();
 }
