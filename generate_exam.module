@@ -69,7 +69,8 @@ function generate_exam_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function exam_submit_handler(&$form, &$form_state) {
-    $form_state['redirect'] = 'node/2';
+    drupal_set_message("Hello".$form_state['dropdown_second']);
+    // $form_state['redirect'] = 'node/2';
 }
 
 /* ************************ supplemental functions */
