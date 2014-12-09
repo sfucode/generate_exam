@@ -137,7 +137,8 @@ function _get_instance($exam) {
         }
     }
 
-    return $question_nids;
+    //return $question_nids;
+    return $num_questions;
 
 }
 
