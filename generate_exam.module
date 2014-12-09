@@ -111,7 +111,7 @@ function _get_instance($exam) {
     $nodes = node_load_multiple($nids);
 
     foreach ($nodes as $node) {
-        $items[] = field_get_items('node', $node, 'field_no_of_questions');
+        $items .= field_get_items('node', $node, 'field_no_of_questions');
 
         /*
         foreach ($items as $item) { // for each question number field
