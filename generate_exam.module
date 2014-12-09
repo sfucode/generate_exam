@@ -127,7 +127,7 @@ function _get_instance($exam) {
         $result = $queryQuestion->execute();
         $question_nids = array_keys($result['node']);
 
-        $master[] .= $question_nids;
+        $master[$node->nid] = $question_nids;
     }
 
     return $master;
