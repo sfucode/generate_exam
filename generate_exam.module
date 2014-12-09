@@ -129,7 +129,7 @@ function _get_instance($exam) {
                 ->entityCondition('entity_type', 'node')
                 ->entityCondition('bundle', 'exam_question')
                 ->propertyCondition('status', 1)
-                ->fieldCondition('field_section', 'target_id', $node, '=')
+                ->fieldCondition('field_section', 'target_id', '36', '=')
                 ->addTag('random')
                 ->range(0,2);
                 $result = $queryQuestion->execute();
