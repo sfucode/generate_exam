@@ -55,6 +55,9 @@ function generate_exam_dropdowns_form_callback($form, &$form_sate){
     return $form['dropdown_second'];
 }
 
+function generate_exam_dropdowns_form_submit($form, &$form_sate){
+    drupal_set_message('Hello');
+}
 /* ************************ supplemental functions */
 function _get_courses() {
     $query = new EntityFieldQuery();
@@ -138,6 +141,7 @@ function generate_exam_query_random_alter($query){
 }
 
 function _compile_exam($exam) {
+    $master = '';
     $questions = flatten(_get_questions($exam));
 
     foreach ($questions as $q) {
