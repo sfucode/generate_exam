@@ -109,11 +109,20 @@ function _get_instance($exam) {
     $result = $query->execute();
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
-    $select = array();
 
-    foreach ($nids as $n) {
-        $select[$n] = $nodes[$n]->title;
+    // TODO go through each section
+    // and get number of questions.
+    // then, use that number to randomly get questions
+    // from each section and cat them together
+
+    $master = array(); // will be an array of nids for final compilation of pdf
+    foreach ($nids as $n) { // each section
+        // $sections[$n] = $nodes[$n]->title;
+        // TODO get number of questions
+        // TODO load children questions nids
+        // randomly choose from pool
+        $num_questions = $nodes[$n]->field_no_of_questions['und'][0]['value'];
     }
+    return $num_questions;
 
-    return $select;
 }
