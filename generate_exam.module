@@ -110,37 +110,15 @@ function _get_instance($exam) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
 
-    // TODO go through each section
-    // and get number of questions.
-    // then, use that number to randomly get questions
-    // from each section and cat them together
-
-    $index = array(); // will be an array of nids for final compilation of pdf
-    $num_questions = array(); // will be an array of nids for final compilation of pdf
     foreach ($nodes as $node) {
-
-        // Get the field items
         $items = field_get_items('node', $node, 'field_no_of_questions');
 
         foreach ($items as $item) { // for each question number field
             $num_questions = field_view_value('node', $node, 'field_no_of_questions', $item);
-            $index[$node] .= $num_questions;
-            /*
-            $queryQuestion = new EntityFieldQuery();
-            $queryQuestion
-                ->entityCondition('entity_type', 'node')
-                ->entityCondition('bundle', 'exam_question')
-                ->propertyCondition('status', 1)
-                ->fieldCondition('field_section', 'target_id', '36', '=')
-                ->addTag('random')
-                ->range(0,'2');
-                $result = $queryQuestion->execute();
-                $question_nids[] = array_keys($result['node']);
-             */
         }
     }
 
-    return $index;
+    return $num_questions;
 
 }
 
