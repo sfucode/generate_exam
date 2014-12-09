@@ -62,7 +62,7 @@ function generate_exam_dropdowns_form_callback($form, &$form_sate){
     return $form['dropdown_second'];
 }
 
-function generate_exam_dropdowns_form_alter(&$form, &$form_state, $form_id) {
+function generate_exam_form_alter(&$form, &$form_state, $form_id) {
     if ($form_id == 'generate_exam_dropdowns_form') {
         $form['#submit'][] = 'exam_submit_handler';
     }
