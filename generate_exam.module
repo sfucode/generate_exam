@@ -118,10 +118,13 @@ function _get_instance($exam) {
     $master = array(); // will be an array of nids for final compilation of pdf
     $num_questions = array(); // will be an array of nids for final compilation of pdf
     foreach ($nodes as $node) {
+
+        print "Node is ".$node." ";
         // Get the field items
         $items = field_get_items('node', $node, 'field_no_of_questions');
 
         foreach ($items as $item) { // for each question number field
+        print "Item is ".$item." ";
             // do all section processing here $node = section nid
             $num_questions = field_view_value('node', $node, 'field_no_of_questions', $item);
             $queryQuestion = new EntityFieldQuery();
