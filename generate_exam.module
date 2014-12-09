@@ -117,15 +117,17 @@ function _get_instance($exam) {
 
     $master = array(); // will be an array of nids for final compilation of pdf
     $num_questions = array(); // will be an array of nids for final compilation of pdf
-    foreach ($nodes as $section) { // each section
-        // $sections[$n] = $nodes[$n]->title;
-        // TODO get number of questions
-        // TODO load children questions nids
-        // randomly choose from pool
-        // $num_questions = $nodes[$n]->field_no_of_questions;
-        // $num_questions = $nodes[$n]->title;
-        $num_questions = field_get_items('node', $section, 'field_no_of_questions');
+    foreach ($nodes as $node) {
+        // Get the field items
+        $items = field_get_items('node', $node, 'field_no_of_questions');
+
+        // Truncate to the necessary number (your logic will probably change here)
+        foreach (array_slice($items, 0, 5) as $item) {
+            // Add to the output array.
+            $output[] = field_view_value('node', $node, 'field_no_of_questions', $item);
+        }
     }
-    return $num_questions;
+
+    return render($output);
 
 }
