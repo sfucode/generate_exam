@@ -97,7 +97,7 @@ function _get_exams($course) {
     return $select;
 }
 
-function _get_instance($exam) {
+function _get_questions($exam) {
     // get sections
     $query = new EntityFieldQuery();
     $query
@@ -135,4 +135,8 @@ function _get_instance($exam) {
 
 function generate_exam_query_random_alter($query){
     $query->orderRandom();
+}
+
+function _compile_exam($exam) {
+    $questions = _get_questions($exam);
 }
