@@ -123,7 +123,8 @@ function _get_instance($exam) {
         // TODO load children questions nids
         // randomly choose from pool
         // $num_questions = $nodes[$n]->field_no_of_questions;
-        $num_questions = $nodes[$n]->title;
+        // $num_questions = $nodes[$n]->title;
+        $num_questions .= $nodes;
     }
     return $num_questions;
 
