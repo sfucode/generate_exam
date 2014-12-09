@@ -138,5 +138,13 @@ function generate_exam_query_random_alter($query){
 }
 
 function _compile_exam($exam) {
-    $questions = _get_questions($exam);
+    $questions = flatten(_get_questions($exam));
+
+    return $questions;
+}
+
+function flatten(array $array) {
+    $return = array();
+    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+    return $return;
 }
