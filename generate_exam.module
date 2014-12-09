@@ -132,14 +132,14 @@ function _get_instance($exam) {
                 ->propertyCondition('status', 1)
                 ->fieldCondition('field_section', 'target_id', '36', '=')
                 ->addTag('random')
-                ->range(0,$num_questions);
+                ->range(0,'2');
                 $result = $queryQuestion->execute();
                 $question_nids[] = array_keys($result['node']);
         }
     }
 
-    //return $question_nids;
-    return $num_questions['#markup'];
+    return $question_nids;
+    // return $num_questions['#markup'];
     // return $items;
 
 }
