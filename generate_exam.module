@@ -63,6 +63,7 @@ function generate_exam_dropdowns_form_callback($form, &$form_sate){
 }
 
 function generate_exam_dropdowns_form_submit($form, &$form_sate){
+    $form_state['redirect'] = 'node/2';
     drupal_set_message('Hello');
 }
 /* ************************ supplemental functions */
