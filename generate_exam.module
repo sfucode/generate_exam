@@ -131,7 +131,6 @@ function _get_instance($exam) {
     }
 
     return $master;
-
 }
 
 function generate_exam_query_random_alter($query){
