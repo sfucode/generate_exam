@@ -131,7 +131,7 @@ function _get_instance($exam) {
                 ->propertyCondition('status', 1)
                 ->fieldCondition('field_section', 'target_id', $node, '=')
                 ->addTag('random')
-                ->range(0,$num_questions);
+                ->range(0,2);
                 $result = $queryQuestion->execute();
                 $question_nids[] = array_keys($result['node']);
         }
