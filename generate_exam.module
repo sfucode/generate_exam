@@ -110,6 +110,8 @@ function _get_instance($exam) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
 
+    $master = array();
+
     foreach ($nodes as &$node) {
         // $items[$node->nid] = field_get_items('node', $node, 'field_no_of_questions');
         $num = field_get_items('node', $node, 'field_no_of_questions');
@@ -123,10 +125,12 @@ function _get_instance($exam) {
             ->addTag('random')
             ->range(0,$num_questions);
         $result = $queryQuestion->execute();
-        $question_nids = array_keys($result);
+        $question_nids = array_keys($result['node']);
+
+        $master[] .= $question_nids;
     }
 
-    return $question_nids;
+    return $master;
 
 }
 
