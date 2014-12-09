@@ -114,7 +114,7 @@ function _get_instance($exam) {
         $items = field_get_items('node', $node, 'field_no_of_questions');
 
         foreach ($items as $item) { // for each question number field
-            $num_questions = field_view_value('node', $node, 'field_no_of_questions', $item);
+            $num_questions[] .= field_view_value('node', $node, 'field_no_of_questions', $item);
         }
     }
 
