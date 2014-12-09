@@ -97,7 +97,8 @@ function _get_exams($course) {
     return $select;
 }
 
-function _get_sections($exam) {
+function _get_instance($exam) {
+    // get sections
     $query = new EntityFieldQuery();
     $query
         ->entityCondition('entity_type', 'node')
@@ -115,11 +116,4 @@ function _get_sections($exam) {
     }
 
     return $select;
-}
-
-function _get_instance($exam) {
-    // note $exam is exam nid
-    // TODO get array of question nodes
-	
-    
 }
